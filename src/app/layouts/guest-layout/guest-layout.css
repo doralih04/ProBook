@@ -1,0 +1,30 @@
+.guest-header {
+  background-color: var(--secondary-gold);
+  color: var(--primary-dark-green);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guest-header h1 {
+  font-family: var(--font-secondary);
+  margin: 0;
+}
+
+.guest-header nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.guest-header nav a {
+  color: var(--primary-dark-green);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.guest-main {
+  min-height: calc(100vh - 80px);
+  padding: 2rem;
+  background-color: var(--accent-sand);
+}

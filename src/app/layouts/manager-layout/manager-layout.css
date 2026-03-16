@@ -1,0 +1,41 @@
+.manager-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.manager-sidebar {
+  width: 250px;
+  background-color: var(--primary-dark-green);
+  color: var(--accent-sand);
+  padding: 1rem;
+}
+
+.manager-sidebar h2 {
+  font-family: var(--font-secondary);
+  margin-top: 0;
+}
+
+.manager-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.manager-sidebar nav a {
+  color: var(--accent-sand);
+  text-decoration: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.manager-sidebar nav a:hover {
+  background-color: var(--secondary-gold);
+  color: var(--primary-dark-green);
+}
+
+.manager-main {
+  flex: 1;
+  padding: 2rem;
+  background-color: var(--background);
+}
