@@ -1,0 +1,52 @@
+<div class="room-catalog-container">
+  <div class="catalog-header">
+    <h1 class="pb-title">Nuestras Habitaciones</h1>
+    <p class="catalog-subtitle">Descubre el confort y elegancia que ProBook tiene para ofrecerte</p>
+  </div>
+
+  <!-- Filter Chips -->
+  <div class="filter-chips">
+    <mat-chip-set>
+      <mat-chip [highlighted]="selectedType === 'all'" (click)="filterByType('all')">Todas</mat-chip>
+      <mat-chip [highlighted]="selectedType === 'single'" (click)="filterByType('single')">Individual</mat-chip>
+      <mat-chip [highlighted]="selectedType === 'double'" (click)="filterByType('double')">Doble</mat-chip>
+      <mat-chip [highlighted]="selectedType === 'suite'" (click)="filterByType('suite')">Suite</mat-chip>
+    </mat-chip-set>
+  </div>
+
+  <!-- Room Cards -->
+  <div class="rooms-grid">
+    <mat-card class="pb-card room-card" *ngFor="let room of filteredRooms">
+      <div class="room-image">
+        <img [src]="room.imageUrl" [alt]="room.description" loading="lazy">
+        <div class="room-price">${{ room.price }}<span>/noche</span></div>
+      </div>
+
+      <mat-card-content class="room-content">
+        <div class="room-header">
+          <h3 class="room-title">Habitación {{ room.number }}</h3>
+          <span class="room-type">{{ getTypeLabel(room.type) }}</span>
+        </div>
+
+        <p class="room-description">{{ room.description }}</p>
+
+        <div class="room-amenities">
+          <mat-chip *ngFor="let amenity of room.amenities" size="small">{{ amenity }}</mat-chip>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="room-actions">
+        <button mat-raised-button color="primary" class="pb-button book-button" (click)="bookRoom(room)">
+          <mat-icon>event_available</mat-icon>
+          Reservar Ahora
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div *ngIf="filteredRooms.length === 0" class="no-rooms">
+    <mat-icon class="no-rooms-icon">hotel</mat-icon>
+    <h3>No hay habitaciones disponibles</h3>
+    <p>Intenta con otro tipo de habitación o fechas diferentes.</p>
+  </div>
+</div>

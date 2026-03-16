@@ -1,0 +1,92 @@
+<div class="landing-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Bienvenido a ProBook</h1>
+      <p class="hero-subtitle">Donde el lujo se encuentra con la comodidad</p>
+      <div class="hero-buttons">
+        <button mat-raised-button color="primary" class="pb-button hero-button" (click)="navigateToBooking()">
+          <mat-icon>event_available</mat-icon>
+          Reservar Ahora
+        </button>
+        <button mat-button class="pb-button hero-button-outline" (click)="navigateToRooms()">
+          <mat-icon>visibility</mat-icon>
+          Ver Habitaciones
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <h2 class="section-title pb-title">Nuestros Servicios</h2>
+      <div class="features-grid">
+        <div class="feature-card" *ngFor="let feature of features">
+          <div class="feature-icon">
+            <mat-icon>{{ feature.icon }}</mat-icon>
+          </div>
+          <h3 class="feature-title">{{ feature.title }}</h3>
+          <p class="feature-description">{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-text">
+          <h2 class="pb-title">Experiencia Hotelera Premium</h2>
+          <p>
+            En ProBook, nos dedicamos a proporcionar una experiencia hotelera excepcional
+            que combina elegancia, confort y servicio personalizado. Nuestro hotel ofrece
+            habitaciones lujosas, instalaciones de primera clase y un equipo dedicado a
+            hacer que tu estadía sea inolvidable.
+          </p>
+          <p>
+            Ubicado en el corazón de la ciudad, ProBook es el destino perfecto para
+            viajeros de negocios y placer que buscan lo mejor en hospitalidad.
+          </p>
+        </div>
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600" alt="Hotel Lobby">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials-section">
+    <div class="container">
+      <h2 class="section-title pb-title">Lo que dicen nuestros huéspedes</h2>
+      <div class="testimonials-grid">
+        <mat-card class="pb-card testimonial-card" *ngFor="let testimonial of testimonials">
+          <mat-card-content>
+            <div class="testimonial-rating">
+              <mat-icon *ngFor="let star of [1,2,3,4,5]" [class.filled]="star <= testimonial.rating">star</mat-icon>
+            </div>
+            <p class="testimonial-comment">"{{ testimonial.comment }}"</p>
+            <div class="testimonial-author">- {{ testimonial.name }}</div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="pb-title">¿Listo para tu próxima aventura?</h2>
+        <p>Reserva tu habitación hoy y comienza a crear recuerdos inolvidables.</p>
+        <button mat-raised-button color="primary" class="pb-button cta-button" (click)="navigateToBooking()">
+          <mat-icon>hotel</mat-icon>
+          Reservar Habitación
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

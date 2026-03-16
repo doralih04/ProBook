@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
+import { Landing } from './landing/landing';
 
 export const publicRoutes: Routes = [
-  // Public routes will be added here
+  { path: '', component: Landing }
 ];

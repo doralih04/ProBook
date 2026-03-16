@@ -1,0 +1,99 @@
+<div class="guest-dashboard">
+  <div class="welcome-section">
+    <h1 class="pb-title">¡Bienvenido a ProBook!</h1>
+    <p class="welcome-subtitle">Tu experiencia hotelera premium comienza aquí</p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-section">
+    <mat-card class="pb-card stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>event</mat-icon>
+        </div>
+        <div class="stat-info">
+          <div class="stat-value">{{ upcomingReservations }}</div>
+          <div class="stat-label">Reservas Activas</div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="pb-card stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>attach_money</mat-icon>
+        </div>
+        <div class="stat-info">
+          <div class="stat-value">${{ totalSpent }}</div>
+          <div class="stat-label">Total Gastado</div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="pb-card stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>stars</mat-icon>
+        </div>
+        <div class="stat-info">
+          <div class="stat-value">{{ loyaltyPoints }}</div>
+          <div class="stat-label">Puntos de Lealtad</div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="actions-section">
+    <h2 class="section-title">Acciones Rápidas</h2>
+    <div class="actions-grid">
+      <mat-card class="pb-card action-card" *ngFor="let action of quickActions" (click)="navigateTo(action.route)">
+        <mat-card-content>
+          <div class="action-icon" [style.color]="action.color === 'primary' ? 'var(--primary-dark-green)' : 'var(--secondary-gold)'">
+            <mat-icon>{{ action.icon }}</mat-icon>
+          </div>
+          <div class="action-info">
+            <h3 class="action-title">{{ action.title }}</h3>
+            <p class="action-description">{{ action.description }}</p>
+          </div>
+          <mat-icon class="action-arrow">arrow_forward</mat-icon>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="activity-section">
+    <h2 class="section-title">Actividad Reciente</h2>
+    <mat-card class="pb-card activity-card">
+      <mat-card-content>
+        <div class="activity-item">
+          <mat-icon class="activity-icon">check_circle</mat-icon>
+          <div class="activity-content">
+            <div class="activity-title">Reserva confirmada</div>
+            <div class="activity-subtitle">Habitación 101 - Check-in: 20 Mar 2026</div>
+          </div>
+          <div class="activity-time">2h ago</div>
+        </div>
+
+        <div class="activity-item">
+          <mat-icon class="activity-icon">payment</mat-icon>
+          <div class="activity-content">
+            <div class="activity-title">Pago procesado</div>
+            <div class="activity-subtitle">$200 - Reserva #12345</div>
+          </div>
+          <div class="activity-time">1d ago</div>
+        </div>
+
+        <div class="activity-item">
+          <mat-icon class="activity-icon">loyalty</mat-icon>
+          <div class="activity-content">
+            <div class="activity-title">Puntos ganados</div>
+            <div class="activity-subtitle">+50 puntos por estadía</div>
+          </div>
+          <div class="activity-time">3d ago</div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

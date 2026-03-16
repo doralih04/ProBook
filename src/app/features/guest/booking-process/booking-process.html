@@ -1,0 +1,152 @@
+<div class="booking-container" *ngIf="room">
+  <h1 class="pb-title booking-title">Reservar Habitación {{ room.number }}</h1>
+
+  <mat-card class="pb-card booking-card">
+    <mat-card-content>
+      <mat-stepper [linear]="true" orientation="vertical" [selectedIndex]="currentStep">
+        <!-- Step 1: Booking Details -->
+        <mat-step>
+          <ng-template matStepLabel>Detalles de la Reserva</ng-template>
+          <div class="step-content">
+            <div class="room-summary">
+              <h3>{{ room.description }}</h3>
+              <p><strong>Tipo:</strong> {{ room.type | titlecase }}</p>
+              <p><strong>Precio por noche:</strong> ${{ room.price }}</p>
+            </div>
+
+            <form [formGroup]="bookingForm" class="booking-form">
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Fecha de Check-in</mat-label>
+                  <input matInput [matDatepicker]="checkInPicker" formControlName="checkIn">
+                  <mat-datepicker-toggle matIconSuffix [for]="checkInPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #checkInPicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Fecha de Check-out</mat-label>
+                  <input matInput [matDatepicker]="checkOutPicker" formControlName="checkOut">
+                  <mat-datepicker-toggle matIconSuffix [for]="checkOutPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #checkOutPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Número de Huéspedes</mat-label>
+                <input matInput type="number" formControlName="guests" min="1" max="4">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Solicitudes Especiales</mat-label>
+                <textarea matInput formControlName="specialRequests" rows="3" placeholder="Ej: Cama extra, vista al mar, etc."></textarea>
+              </mat-form-field>
+            </form>
+          </div>
+        </mat-step>
+
+        <!-- Step 2: Payment -->
+        <mat-step>
+          <ng-template matStepLabel>Información de Pago</ng-template>
+          <div class="step-content">
+            <div class="booking-summary">
+              <h3>Resumen de la Reserva</h3>
+              <div class="summary-item">
+                <span>Habitación {{ room.number }}</span>
+                <span>${{ room.price }} x {{ totalNights }} noches</span>
+              </div>
+              <div class="summary-item">
+                <span>Subtotal</span>
+                <span>${{ totalPrice }}</span>
+              </div>
+              <div class="summary-item">
+                <span>Impuestos (12%)</span>
+                <span>${{ taxes | number:'1.2-2' }}</span>
+              </div>
+              <div class="summary-total">
+                <span>Total</span>
+                <span>${{ grandTotal | number:'1.2-2' }}</span>
+              </div>
+            </div>
+
+            <form [formGroup]="paymentForm" class="payment-form">
+              <mat-form-field appearance="outline">
+                <mat-label>Número de Tarjeta</mat-label>
+                <input matInput formControlName="cardNumber" placeholder="1234 5678 9012 3456">
+                <mat-icon matSuffix>credit_card</mat-icon>
+              </mat-form-field>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline">
+                  <mat-label>Fecha de Expiración</mat-label>
+                  <input matInput formControlName="expiryDate" placeholder="MM/YY">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>CVV</mat-label>
+                  <input matInput formControlName="cvv" placeholder="123">
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Nombre del Titular</mat-label>
+                <input matInput formControlName="cardholderName" placeholder="Como aparece en la tarjeta">
+              </mat-form-field>
+            </form>
+          </div>
+        </mat-step>
+
+        <!-- Step 3: Confirmation -->
+        <mat-step>
+          <ng-template matStepLabel>Confirmación</ng-template>
+          <div class="step-content confirmation">
+            <mat-icon class="confirmation-icon">check_circle</mat-icon>
+            <h3>¡Reserva casi lista!</h3>
+            <p>Revisa los detalles y confirma tu reserva.</p>
+
+            <div class="final-summary">
+              <div class="summary-item">
+                <span>Habitación:</span>
+                <span>{{ room.number }} - {{ room.type | titlecase }}</span>
+              </div>
+              <div class="summary-item">
+                <span>Check-in:</span>
+                <span>{{ bookingForm.get('checkIn')?.value | date:'mediumDate' }}</span>
+              </div>
+              <div class="summary-item">
+                <span>Check-out:</span>
+                <span>{{ bookingForm.get('checkOut')?.value | date:'mediumDate' }}</span>
+              </div>
+              <div class="summary-item">
+                <span>Total a pagar:</span>
+                <span>${{ grandTotal | number:'1.2-2' }}</span>
+              </div>
+            </div>
+          </div>
+        </mat-step>
+      </mat-stepper>
+
+      <div class="stepper-actions">
+        <button mat-button *ngIf="currentStep > 0" (click)="previousStep()">
+          <mat-icon>arrow_back</mat-icon>
+          Anterior
+        </button>
+        <button mat-raised-button color="primary" *ngIf="currentStep < 2" (click)="nextStep()" class="pb-button">
+          Siguiente
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" *ngIf="currentStep === 2" (click)="confirmBooking()" class="pb-button">
+          <mat-icon>check</mat-icon>
+          Confirmar Reserva
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="!room" class="error-container">
+  <mat-icon class="error-icon">error</mat-icon>
+  <h3>Habitación no encontrada</h3>
+  <button mat-raised-button color="primary" routerLink="/guest" class="pb-button">
+    Volver al Catálogo
+  </button>
+</div>
