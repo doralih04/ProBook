@@ -1,5 +1,16 @@
 import { Routes } from '@angular/router';
+import { GuestDashboard } from './dashboard/dashboard';
+import { RoomCatalog } from './room-catalog/room-catalog';
+import { BookingProcess } from './booking-process/booking-process';
+import { MyReservations } from './my-reservations/my-reservations';
+import { AlreadyReservedComponent } from './already-reserved/already-reserved';
+import { reservationGuard } from '../../core/guards/reservation.guard';
 
 export const guestRoutes: Routes = [
-  // Guest routes will be added here
+  { path: 'dashboard', component: GuestDashboard },
+  { path: 'catalog', component: RoomCatalog, canActivate: [reservationGuard] },
+  { path: 'booking', component: BookingProcess, canActivate: [reservationGuard] },
+  { path: 'reservations', component: MyReservations },
+  { path: 'already-reserved', component: AlreadyReservedComponent },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];
