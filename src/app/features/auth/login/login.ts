@@ -49,7 +49,7 @@ export class Login {
       this.authService.login(email, password).subscribe({
         next: (response) => {
           this.loading = false;
-          if (response.user.role === 'manager') {
+          if (response.user.role === 'Manager') {
             this.router.navigate(['/manager']);
           } else {
             this.router.navigate(['/guest']);

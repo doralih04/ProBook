@@ -1,10 +1,19 @@
 <header class="guest-header">
-  <h1>My ProBook</h1>
-  <nav>
-    <a href="/guest">Dashboard</a>
-    <a href="/guest/reservations">My Reservations</a>
-    <a href="/guest/book">Book Room</a>
+  <div class="header-brand">
+    <span class="brand-emoji">🏨</span>
+    <span class="brand-text">ProBook</span>
+  </div>
+
+  <nav class="header-nav">
+    <a routerLink="/guest/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
+    <a routerLink="/guest/catalog" routerLinkActive="active" class="nav-link">Habitaciones</a>
+    <a routerLink="/guest/reservations" routerLinkActive="active" class="nav-link">Mis Reservas</a>
   </nav>
+
+  <div class="header-actions">
+    <span class="user-greeting">Hola, {{ currentUser?.name }}</span>
+    <button class="logout-btn" (click)="logout()">Salir</button>
+  </div>
 </header>
 
 <main class="guest-main">

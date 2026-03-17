@@ -4,13 +4,8 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  role: 'guest' | 'manager';
-  hasReserved?: boolean;
-}
+import { User } from '../models/user.model';
+export type { User };
 
 export interface AuthResponse {
   token: string;
@@ -40,13 +35,8 @@ export class AuthService {
       );
   }
 
-  register(userData: { name: string; email: string; password: string }): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/register`, userData)
-      .pipe(
-        tap(response => {
-          this.saveAuthData(response.token, response.user);
-        })
-      );
+  register(userData: { name: string; email: string; password: string }): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/auth/register`, userData);
   }
 
   private saveAuthData(token: string, user: User): void {
@@ -72,7 +62,7 @@ export class AuthService {
 
   hasRole(role: string): boolean {
     const user = this.getCurrentUser();
-    return user?.role === role;
+    return user?.role?.toLowerCase() === role.toLowerCase();
   }
 
   getCurrentUser(): User | null {

@@ -24,14 +24,14 @@
 
       <mat-card-content class="room-content">
         <div class="room-header">
-          <h3 class="room-title">Habitación {{ room.number }}</h3>
+          <h3 class="room-title">Habitación {{ room.name }}</h3>
           <span class="room-type">{{ getTypeLabel(room.type) }}</span>
         </div>
 
         <p class="room-description">{{ room.description }}</p>
 
         <div class="room-amenities">
-          <mat-chip *ngFor="let amenity of room.amenities" size="small">{{ amenity }}</mat-chip>
+          <mat-chip *ngFor="let amenity of room.amenities || []" size="small">{{ amenity }}</mat-chip>
         </div>
       </mat-card-content>
 

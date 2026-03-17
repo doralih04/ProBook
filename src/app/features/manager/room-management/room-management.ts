@@ -10,14 +10,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 
-export interface Room {
-  id: string;
-  number: string;
-  type: 'single' | 'double' | 'suite';
-  price: number;
-  status: 'available' | 'occupied' | 'maintenance';
-  description: string;
-}
+import { Room } from '../../../core/models/room.model';
+import { RoomService } from '../../../core/services/room.service';
 
 @Component({
   selector: 'app-room-management',
@@ -38,31 +32,35 @@ export interface Room {
   styleUrl: './room-management.css'
 })
 export class RoomManagement implements OnInit {
-  displayedColumns: string[] = ['number', 'type', 'price', 'status', 'actions'];
-  rooms: Room[] = [
-    { id: '1', number: '101', type: 'single', price: 100, status: 'available', description: 'Habitación individual básica' },
-    { id: '2', number: '102', type: 'double', price: 150, status: 'occupied', description: 'Habitación doble con vista' },
-    { id: '3', number: '201', type: 'suite', price: 300, status: 'maintenance', description: 'Suite ejecutiva' }
-  ];
+  displayedColumns: string[] = ['name', 'type', 'price', 'actions']; // removed status from columns if backend doesn't have it
+  rooms: Room[] = [];
 
   roomForm: FormGroup;
   editingRoom: Room | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private roomService: RoomService
   ) {
     this.roomForm = this.fb.group({
-      number: ['', [Validators.required]],
+      name: ['', [Validators.required]],
       type: ['single', [Validators.required]],
       price: ['', [Validators.required, Validators.min(0)]],
-      status: ['available', [Validators.required]],
-      description: ['']
+      description: [''],
+      imageUrl: ['']
     });
   }
 
   ngOnInit(): void {
-    // Load rooms from service
+    this.loadRooms();
+  }
+
+  loadRooms(): void {
+    this.roomService.getRooms().subscribe({
+      next: (data) => this.rooms = data,
+      error: (err: any) => console.error('Error fetching rooms', err)
+    });
   }
 
   addRoom(): void {
@@ -79,25 +77,25 @@ export class RoomManagement implements OnInit {
     if (this.roomForm.valid) {
       const roomData = this.roomForm.value;
       if (this.editingRoom) {
-        // Update existing room
-        const index = this.rooms.findIndex(r => r.id === this.editingRoom!.id);
-        this.rooms[index] = { ...this.editingRoom, ...roomData };
+         // PUT API Call would go here if backend supported
+         this.editingRoom = null;
       } else {
         // Add new room
-        const newRoom: Room = {
-          id: Date.now().toString(),
-          ...roomData
-        };
-        this.rooms.push(newRoom);
+        this.roomService.createRoom(roomData).subscribe({
+          next: () => {
+            this.loadRooms();
+            this.roomForm.reset();
+            this.editingRoom = null;
+          },
+          error: (err) => console.error('Error creating room', err)
+        });
       }
-      this.roomForm.reset({ type: 'single', status: 'available' });
-      this.editingRoom = null;
     }
   }
 
   deleteRoom(room: Room): void {
     if (confirm('¿Estás seguro de eliminar esta habitación?')) {
-      this.rooms = this.rooms.filter(r => r.id !== room.id);
+        // DELETE API Call would go here if backend supported
     }
   }
 

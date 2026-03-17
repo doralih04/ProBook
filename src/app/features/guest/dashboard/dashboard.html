@@ -1,99 +1,103 @@
 <div class="guest-dashboard">
-  <div class="welcome-section">
-    <h1 class="pb-title">¡Bienvenido a ProBook!</h1>
-    <p class="welcome-subtitle">Tu experiencia hotelera premium comienza aquí</p>
+  <!-- Welcome Banner -->
+  <div class="welcome-banner">
+    <div class="welcome-content">
+      <div class="welcome-text">
+        <h1>👋 Hola, {{ currentUser?.name || 'Bienvenido' }}!</h1>
+        <p>Bienvenido a ProBook — Tu experiencia hotelera premium comienza aquí</p>
+      </div>
+      <div class="welcome-status" *ngIf="hasReservation">
+        <span class="reserved-badge">✅ Reserva Activa</span>
+      </div>
+    </div>
   </div>
 
   <!-- Stats Cards -->
-  <div class="stats-section">
-    <mat-card class="pb-card stat-card">
-      <mat-card-content>
-        <div class="stat-icon">
-          <mat-icon>event</mat-icon>
-        </div>
-        <div class="stat-info">
-          <div class="stat-value">{{ upcomingReservations }}</div>
-          <div class="stat-label">Reservas Activas</div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon green">🛏️</div>
+      <div>
+        <div class="stat-value">{{ hasReservation ? '1' : '0' }}</div>
+        <div class="stat-label">Reservas Activas</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon gold">💰</div>
+      <div>
+        <div class="stat-value">${{ totalSpent | number:'1.0-0' }}</div>
+        <div class="stat-label">Total Gastado</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon blue">⭐</div>
+      <div>
+        <div class="stat-value">{{ hasReservation ? '50' : '0' }}</div>
+        <div class="stat-label">Puntos de Lealtad</div>
+      </div>
+    </div>
+  </div>
 
-    <mat-card class="pb-card stat-card">
-      <mat-card-content>
-        <div class="stat-icon">
-          <mat-icon>attach_money</mat-icon>
+  <!-- My Active Reservation (if any) -->
+  <div class="reservation-card" *ngIf="hasReservation && myReservation">
+    <div class="section-header">
+      <h2>Mi Reserva Activa</h2>
+      <span class="confirmed-badge">✅ Confirmada</span>
+    </div>
+    <div class="reservation-details">
+      <div class="detail-row">
+        <span class="detail-icon">🛏️</span>
+        <div>
+          <div class="detail-label">Habitación</div>
+          <div class="detail-value">#{{ myReservation.roomId }}</div>
         </div>
-        <div class="stat-info">
-          <div class="stat-value">${{ totalSpent }}</div>
-          <div class="stat-label">Total Gastado</div>
+      </div>
+      <div class="detail-row">
+        <span class="detail-icon">📅</span>
+        <div>
+          <div class="detail-label">Check-in</div>
+          <div class="detail-value">{{ myReservation.checkIn | date:'dd MMM yyyy' }}</div>
         </div>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="pb-card stat-card">
-      <mat-card-content>
-        <div class="stat-icon">
-          <mat-icon>stars</mat-icon>
+      </div>
+      <div class="detail-row">
+        <span class="detail-icon">📅</span>
+        <div>
+          <div class="detail-label">Check-out</div>
+          <div class="detail-value">{{ myReservation.checkOut | date:'dd MMM yyyy' }}</div>
         </div>
-        <div class="stat-info">
-          <div class="stat-value">{{ loyaltyPoints }}</div>
-          <div class="stat-label">Puntos de Lealtad</div>
+      </div>
+      <div class="detail-row">
+        <span class="detail-icon">💳</span>
+        <div>
+          <div class="detail-label">Total Pagado</div>
+          <div class="detail-value price">${{ myReservation.totalPrice | number:'1.0-0' }}</div>
         </div>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
+    <div class="blocked-notice">
+      <span>⚠️ Solo puedes realizar una reserva por cuenta. Tu reserva ya está activa y no puede modificarse.</span>
+    </div>
   </div>
 
   <!-- Quick Actions -->
   <div class="actions-section">
     <h2 class="section-title">Acciones Rápidas</h2>
     <div class="actions-grid">
-      <mat-card class="pb-card action-card" *ngFor="let action of quickActions" (click)="navigateTo(action.route)">
-        <mat-card-content>
-          <div class="action-icon" [style.color]="action.color === 'primary' ? 'var(--primary-dark-green)' : 'var(--secondary-gold)'">
-            <mat-icon>{{ action.icon }}</mat-icon>
-          </div>
-          <div class="action-info">
-            <h3 class="action-title">{{ action.title }}</h3>
-            <p class="action-description">{{ action.description }}</p>
-          </div>
-          <mat-icon class="action-arrow">arrow_forward</mat-icon>
-        </mat-card-content>
-      </mat-card>
+      <div class="action-card" (click)="navigateTo('/guest/catalog')">
+        <div class="action-emoji">🛏️</div>
+        <div class="action-info">
+          <div class="action-title">Ver Habitaciones</div>
+          <div class="action-desc">Explora todas las opciones disponibles</div>
+        </div>
+        <span class="action-arrow">→</span>
+      </div>
+      <div class="action-card" (click)="navigateTo('/guest/reservations')">
+        <div class="action-emoji">📋</div>
+        <div class="action-info">
+          <div class="action-title">Mis Reservas</div>
+          <div class="action-desc">Consulta el estado de tu reserva</div>
+        </div>
+        <span class="action-arrow">→</span>
+      </div>
     </div>
-  </div>
-
-  <!-- Recent Activity -->
-  <div class="activity-section">
-    <h2 class="section-title">Actividad Reciente</h2>
-    <mat-card class="pb-card activity-card">
-      <mat-card-content>
-        <div class="activity-item">
-          <mat-icon class="activity-icon">check_circle</mat-icon>
-          <div class="activity-content">
-            <div class="activity-title">Reserva confirmada</div>
-            <div class="activity-subtitle">Habitación 101 - Check-in: 20 Mar 2026</div>
-          </div>
-          <div class="activity-time">2h ago</div>
-        </div>
-
-        <div class="activity-item">
-          <mat-icon class="activity-icon">payment</mat-icon>
-          <div class="activity-content">
-            <div class="activity-title">Pago procesado</div>
-            <div class="activity-subtitle">$200 - Reserva #12345</div>
-          </div>
-          <div class="activity-time">1d ago</div>
-        </div>
-
-        <div class="activity-item">
-          <mat-icon class="activity-icon">loyalty</mat-icon>
-          <div class="activity-content">
-            <div class="activity-title">Puntos ganados</div>
-            <div class="activity-subtitle">+50 puntos por estadía</div>
-          </div>
-          <div class="activity-time">3d ago</div>
-        </div>
-      </mat-card-content>
-    </mat-card>
   </div>
 </div>

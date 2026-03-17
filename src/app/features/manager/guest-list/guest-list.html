@@ -1,0 +1,68 @@
+<div class="guest-list-wrap">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Lista de Huéspedes</h1>
+      <p class="page-subtitle">Gestión y seguimiento de reservas de los huéspedes</p>
+    </div>
+    <div class="guest-count" *ngIf="!loading">
+      <span class="count-num">{{ guests.length }}</span>
+      <span class="count-label">Huéspedes</span>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Cargando huéspedes...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-state" *ngIf="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Guests Table -->
+  <div class="table-card" *ngIf="!loading && !error">
+    <div class="table-wrap">
+      <table class="data-table" *ngIf="guests.length > 0">
+        <thead>
+          <tr>
+            <th>Huésped</th>
+            <th>Email</th>
+            <th>Estado</th>
+            <th>Habitación</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th>Total Pagado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let guest of guests">
+            <td>
+              <div class="guest-name">
+                <div class="guest-avatar">{{ guest.name.charAt(0) }}</div>
+                <span>{{ guest.name }}</span>
+              </div>
+            </td>
+            <td class="email-cell">{{ guest.email }}</td>
+            <td>
+              <span class="status-badge" [class.confirmed]="guest.hasReserved" [class.pending]="!guest.hasReserved">
+                {{ getReservationStatus(guest) }}
+              </span>
+            </td>
+            <td>{{ guest.reservation ? 'Hab. #' + guest.reservation.roomId : '—' }}</td>
+            <td>{{ guest.reservation ? (guest.reservation.checkInDate | date:'dd/MM/yyyy') : '—' }}</td>
+            <td>{{ guest.reservation ? (guest.reservation.checkOutDate | date:'dd/MM/yyyy') : '—' }}</td>
+            <td class="price-cell">{{ guest.reservation ? ('$' + (guest.reservation.totalPrice | number:'1.0-0')) : '—' }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="empty-state" *ngIf="guests.length === 0">
+        <div class="empty-icon">👤</div>
+        <h3>Sin huéspedes registrados</h3>
+        <p>Los huéspedes que se registren en la plataforma aparecerán aquí.</p>
+      </div>
+    </div>
+  </div>
+</div>

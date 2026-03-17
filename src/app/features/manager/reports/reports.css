@@ -1,5 +1,6 @@
 .reports-container {
-  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .reports-header {
@@ -9,67 +10,97 @@
   margin-bottom: 2rem;
 }
 
+.reports-header h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a3026;
+  margin: 0;
+}
+
 .reports-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
   margin-bottom: 2rem;
 }
 
+.reports-grid.full {
+  grid-column: 1 / -1;
+}
+
 .report-card {
-  height: 100%;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(26, 48, 38, 0.07);
+  padding: 1.5rem;
 }
 
-.report-card mat-card-content {
-  height: calc(100% - 80px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.chart-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a3026;
+  margin: 0 0 4px 0;
 }
 
-canvas {
-  max-width: 100%;
-  max-height: 100%;
+.chart-subtitle {
+  font-size: 0.8rem;
+  color: #888;
+  margin: 0 0 1.2rem 0;
+}
+
+.chart-body {
+  min-height: 240px;
+  position: relative;
 }
 
 .summary-grid {
-  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 0;
 }
 
 .summary-card {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(26, 48, 38, 0.07);
+  padding: 1.5rem;
   text-align: center;
 }
 
 .summary-value {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--primary-dark-green);
-  margin-bottom: 0.5rem;
+  color: #1a3026;
+  font-family: 'Outfit', sans-serif;
 }
 
 .summary-label {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+  font-size: 0.78rem;
+  color: #888;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-top: 4px;
 }
 
-.full-width {
-  width: 100%;
+.export-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: #1a3026;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.2s;
 }
 
-@media (max-width: 768px) {
-  .reports-header {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .reports-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .summary-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.export-btn:hover {
+  background: #c5a059;
+  color: #1a3026;
 }
