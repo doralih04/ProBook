@@ -1,73 +1,51 @@
 <div class="reservations-container">
-  <h1 class="pb-title">Mis Reservas</h1>
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Mis Reservas</h1>
+      <p class="page-subtitle">Tu historial de estadías en ProBook</p>
+    </div>
+  </div>
 
-  <div class="reservations-grid" *ngIf="reservations.length > 0; else noReservations">
-    <mat-card class="pb-card reservation-card" *ngFor="let reservation of reservations">
-      <mat-card-header>
-        <mat-card-title>Habitación {{ reservation.roomNumber }}</mat-card-title>
-        <mat-card-subtitle>{{ reservation.roomType }}</mat-card-subtitle>
-      </mat-card-header>
-
-      <mat-card-content>
-        <div class="reservation-details">
-          <div class="detail-item">
-            <mat-icon>calendar_today</mat-icon>
-            <div>
-              <strong>Check-in:</strong>
-              <span>{{ reservation.checkIn | date:'mediumDate' }}</span>
-            </div>
-          </div>
-
-          <div class="detail-item">
-            <mat-icon>calendar_view_day</mat-icon>
-            <div>
-              <strong>Check-out:</strong>
-              <span>{{ reservation.checkOut | date:'mediumDate' }}</span>
-            </div>
-          </div>
-
-          <div class="detail-item">
-            <mat-icon>people</mat-icon>
-            <div>
-              <strong>Huéspedes:</strong>
-              <span>{{ reservation.guests }}</span>
-            </div>
-          </div>
-
-          <div class="detail-item">
-            <mat-icon>attach_money</mat-icon>
-            <div>
-              <strong>Total:</strong>
-              <span>${{ reservation.totalPrice }}</span>
-            </div>
-          </div>
+  <div class="reservations-list" *ngIf="reservations.length > 0; else noReservations">
+    <div class="reservation-card" *ngFor="let reservation of reservations">
+      <div class="card-left">
+        <div class="room-icon">🛏️</div>
+        <div class="room-info">
+          <div class="room-id">Habitación #{{ reservation.roomId }}</div>
+          <div class="reservation-id">Reserva #{{ reservation.id }}</div>
         </div>
+      </div>
 
-        <div class="reservation-status">
-          <mat-chip [style.background-color]="getStatusColor(reservation.status)">
-            {{ getStatusLabel(reservation.status) }}
-          </mat-chip>
+      <div class="card-middle">
+        <div class="date-block">
+          <div class="date-label">Check-in</div>
+          <div class="date-value">{{ reservation.checkIn | date:'dd MMM yyyy' }}</div>
         </div>
-      </mat-card-content>
+        <div class="date-divider">→</div>
+        <div class="date-block">
+          <div class="date-label">Check-out</div>
+          <div class="date-value">{{ reservation.checkOut | date:'dd MMM yyyy' }}</div>
+        </div>
+      </div>
 
-      <mat-card-actions *ngIf="canCancel(reservation)">
-        <button mat-button color="warn" (click)="cancelReservation(reservation)">
-          <mat-icon>cancel</mat-icon>
-          Cancelar Reserva
-        </button>
-      </mat-card-actions>
-    </mat-card>
+      <div class="card-right">
+        <div class="total-price">${{ reservation.totalPrice | number:'1.0-0' }}</div>
+        <span class="status-badge confirmed">✅ Confirmada</span>
+      </div>
+    </div>
+
+    <div class="locked-notice">
+      <span>🔒</span>
+      <span>Tu reserva está activa e inamovible. Para consultas, contacta directamente con el hotel.</span>
+    </div>
   </div>
 
   <ng-template #noReservations>
-    <div class="no-reservations">
-      <mat-icon class="empty-icon">event_note</mat-icon>
-      <h3>No tienes reservas aún</h3>
-      <p>¡Es hora de planear tu próxima aventura!</p>
-      <button mat-raised-button color="primary" routerLink="/guest" class="pb-button">
-        <mat-icon>hotel</mat-icon>
-        Ver Habitaciones Disponibles
-      </button>
+    <div class="empty-state">
+      <div class="empty-icon">📋</div>
+      <h3>Sin reservas aún</h3>
+      <p>¡Explora nuestras habitaciones y realiza tu primera reserva!</p>
+      <a class="cta-btn" routerLink="/guest/catalog">Ver Habitaciones</a>
     </div>
   </ng-template>
 </div>

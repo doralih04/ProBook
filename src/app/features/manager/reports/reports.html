@@ -1,101 +1,59 @@
 <div class="reports-container">
   <div class="reports-header">
-    <h1 class="pb-title">Reportes y Analytics</h1>
-    <button mat-raised-button color="primary" class="pb-button" (click)="exportReport()">
-      <mat-icon>download</mat-icon>
-      Exportar Reporte
+    <div>
+      <h1 class="page-title">Reportes y Analytics</h1>
+      <p class="page-subtitle">Visualiza el rendimiento de ProBook en tiempo real</p>
+    </div>
+    <button class="export-btn" (click)="exportReport()">
+      📊 Exportar Reporte
     </button>
   </div>
 
-  <mat-grid-list cols="2" rowHeight="350px" class="reports-grid">
-    <!-- Monthly Bookings -->
-    <mat-grid-tile>
-      <mat-card class="pb-card report-card">
-        <mat-card-header>
-          <mat-card-title>Reservas Mensuales</mat-card-title>
-          <mat-card-subtitle>Últimos 6 meses</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <canvas baseChart
-                  [data]="bookingsChartData"
-                  [options]="bookingsChartOptions"
-                  [type]="bookingsChartType">
-          </canvas>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
+  <!-- Stats Row -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-value">4.4⭐</div>
+      <div class="summary-label">Satisfacción</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-value">87%</div>
+      <div class="summary-label">Tasa de Retención</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-value">$125</div>
+      <div class="summary-label">Ingreso Promedio</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-value">2.3</div>
+      <div class="summary-label">Noches Promedio</div>
+    </div>
+  </div>
 
-    <!-- Revenue by Room Type -->
-    <mat-grid-tile>
-      <mat-card class="pb-card report-card">
-        <mat-card-header>
-          <mat-card-title>Ingresos por Tipo de Habitación</mat-card-title>
-          <mat-card-subtitle>Distribución anual</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <canvas baseChart
-                  [data]="revenueByTypeChartData"
-                  [options]="revenueByTypeChartOptions"
-                  [type]="revenueByTypeChartType">
-          </canvas>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
+  <!-- Charts Grid -->
+  <div class="reports-grid">
+    <div class="report-card">
+      <h3 class="chart-title">Reservas Mensuales</h3>
+      <p class="chart-subtitle">Últimos 6 meses</p>
+      <div class="chart-body">
+        <canvas baseChart [data]="bookingsChartData" [options]="bookingsChartOptions" [type]="bookingsChartType"></canvas>
+      </div>
+    </div>
 
-    <!-- Customer Satisfaction -->
-    <mat-grid-tile colspan="2">
-      <mat-card class="pb-card report-card full-width">
-        <mat-card-header>
-          <mat-card-title>Satisfacción del Cliente</mat-card-title>
-          <mat-card-subtitle>Promedio semanal (escala 1-5)</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <canvas baseChart
-                  [data]="satisfactionChartData"
-                  [options]="satisfactionChartOptions"
-                  [type]="satisfactionChartType">
-          </canvas>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+    <div class="report-card">
+      <h3 class="chart-title">Distribución por Tipo</h3>
+      <p class="chart-subtitle">Reservas reales del sistema</p>
+      <div class="chart-body">
+        <canvas baseChart [data]="revenueByTypeChartData" [options]="revenueByTypeChartOptions" [type]="revenueByTypeChartType"></canvas>
+      </div>
+    </div>
+  </div>
 
-  <!-- Summary Cards -->
-  <mat-grid-list cols="4" rowHeight="120px" class="summary-grid">
-    <mat-grid-tile>
-      <mat-card class="pb-card summary-card">
-        <mat-card-content>
-          <div class="summary-value">4.4</div>
-          <div class="summary-label">Satisfacción General</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-card class="pb-card summary-card">
-        <mat-card-content>
-          <div class="summary-value">87%</div>
-          <div class="summary-label">Tasa de Repetición</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-card class="pb-card summary-card">
-        <mat-card-content>
-          <div class="summary-value">$125</div>
-          <div class="summary-label">Ingreso Promedio</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-
-    <mat-grid-tile>
-      <mat-card class="pb-card summary-card">
-        <mat-card-content>
-          <div class="summary-value">2.3</div>
-          <div class="summary-label">Noches Promedio</div>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+  <!-- Full Width Chart -->
+  <div class="report-card" style="margin-top: 1.5rem;">
+    <h3 class="chart-title">Tendencia de Satisfacción del Cliente</h3>
+    <p class="chart-subtitle">Promedio semanal (escala 1-5)</p>
+    <div class="chart-body">
+      <canvas baseChart [data]="satisfactionChartData" [options]="satisfactionChartOptions" [type]="satisfactionChartType"></canvas>
+    </div>
+  </div>
 </div>

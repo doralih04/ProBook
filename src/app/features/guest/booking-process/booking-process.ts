@@ -10,14 +10,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
-interface Room {
-  id: string;
-  number: string;
-  type: 'single' | 'double' | 'suite';
-  price: number;
-  description: string;
-}
+import { Room } from '../../../core/models/room.model';
+import { RoomService } from '../../../core/services/room.service';
+import { ReservationService } from '../../../core/services/reservation.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-booking-process',
@@ -47,7 +43,10 @@ export class BookingProcess implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private roomService: RoomService,
+    private reservationService: ReservationService,
+    private authService: AuthService
   ) {
     this.bookingForm = this.fb.group({
       checkIn: ['', Validators.required],
@@ -67,14 +66,10 @@ export class BookingProcess implements OnInit {
   ngOnInit(): void {
     const roomId = this.route.snapshot.queryParams['roomId'];
     if (roomId) {
-      // Load room details (mock data for now)
-      this.room = {
-        id: roomId,
-        number: '101',
-        type: 'single',
-        price: 100,
-        description: 'Habitación individual cómoda'
-      };
+      this.roomService.getRoomById(Number(roomId)).subscribe({
+        next: (room) => this.room = room,
+        error: (err) => console.error('Error fetching room', err)
+      });
     }
   }
 
@@ -91,10 +86,34 @@ export class BookingProcess implements OnInit {
   }
 
   confirmBooking(): void {
-    if (this.bookingForm.valid && this.paymentForm.valid) {
-      // Process booking
-      alert('¡Reserva confirmada exitosamente!');
-      this.router.navigate(['/guest/reservations']);
+    if (this.bookingForm.valid && this.paymentForm.valid && this.room) {
+      const user = this.authService.getCurrentUser();
+      const checkIn = this.bookingForm.get('checkIn')?.value;
+      const checkOut = this.bookingForm.get('checkOut')?.value;
+
+      if (!user) return;
+
+      const payload = {
+        userId: user.id,
+        roomId: this.room.id,
+        checkIn: checkIn instanceof Date ? checkIn.toISOString() : checkIn,
+        checkOut: checkOut instanceof Date ? checkOut.toISOString() : checkOut,
+        totalPrice: this.grandTotal
+      };
+
+      this.reservationService.createReservation(payload).subscribe({
+        next: () => {
+          this.router.navigate(['/guest/reservations']);
+        },
+        error: (err) => {
+          console.error(err);
+          if (err.status === 400) {
+            alert('Error: Ya tienes una reserva activa. No puedes realizar otra reserva.');
+          } else {
+            alert('Ocurrió un error al procesar la reserva. Intenta de nuevo.');
+          }
+        }
+      });
     }
   }
 

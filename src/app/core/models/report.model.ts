@@ -1,5 +1,9 @@
-export interface Report {
-  id: string;
-  title: string;
-  data: any;
+export interface Stats {
+  totalRevenue: number;
+  occupancyRate: number;
+}
+
+export interface Distribution {
+  type: string;
+  count: number;
 }

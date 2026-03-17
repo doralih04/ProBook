@@ -8,13 +8,13 @@ export const roleGuard: CanActivateFn = (route) => {
   const expectedRole = route.data['role'];
 
   const user = authService.getCurrentUser();
-  if (user && user.role === expectedRole) {
+  if (user && user.role.toLowerCase() === expectedRole.toLowerCase()) {
     return true;
   }
 
   // If Manager tries to access Guest or vice versa, redirect to their home
   if (user) {
-    router.navigate([user.role === 'manager' ? '/manager' : '/guest']);
+    router.navigate([`/${user.role.toLowerCase()}`]);
   } else {
     router.navigate(['/auth/login']);
   }

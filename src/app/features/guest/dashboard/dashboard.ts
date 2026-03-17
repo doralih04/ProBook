@@ -1,52 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+import { ReservationService } from '../../../core/services/reservation.service';
+import { User } from '../../../core/models/user.model';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-guest-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule
-  ],
+  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class GuestDashboard {
-  upcomingReservations = 2;
-  totalSpent = 1200;
-  loyaltyPoints = 150;
+export class GuestDashboard implements OnInit {
+  currentUser: User | null = null;
+  hasReservation = false;
+  myReservation: any = null;
+  totalSpent = 0;
 
-  quickActions = [
-    {
-      title: 'Ver Habitaciones',
-      description: 'Explora habitaciones disponibles',
-      icon: 'hotel',
-      route: '/guest/catalog',
-      color: 'primary'
-    },
-    {
-      title: 'Mis Reservas',
-      description: 'Gestiona tus reservas activas',
-      icon: 'event_note',
-      route: '/guest/reservations',
-      color: 'accent'
-    },
-    {
-      title: 'Nueva Reserva',
-      description: 'Reserva una habitación ahora',
-      icon: 'add',
-      route: '/guest/catalog',
-      color: 'primary'
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private reservationService: ReservationService
+  ) {}
+
+  ngOnInit(): void {
+    this.currentUser = this.authService.getCurrentUser();
+    if (this.currentUser) {
+      this.reservationService.getUserReservations(this.currentUser.id).subscribe({
+        next: (reservations) => {
+          if (reservations && reservations.length > 0) {
+            this.hasReservation = true;
+            this.myReservation = reservations[0];
+            this.totalSpent = reservations.reduce((sum, r) => sum + r.totalPrice, 0);
+          }
+        },
+        error: (err) => console.log('Could not load reservations', err)
+      });
     }
-  ];
-
-  constructor(private router: Router) {}
+  }
 
   navigateTo(route: string): void {
     this.router.navigate([route]);

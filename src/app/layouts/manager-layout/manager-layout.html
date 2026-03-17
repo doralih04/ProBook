@@ -1,15 +1,40 @@
 <div class="manager-layout">
-  <aside class="manager-sidebar">
-    <h2>Manager Panel</h2>
-    <nav>
-      <a href="/manager">Dashboard</a>
-      <a href="/manager/rooms">Room Management</a>
-      <a href="/manager/guests">Guest List</a>
-      <a href="/manager/reports">Reports</a>
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">🏨</div>
+      <div>
+        <div class="brand-name">ProBook</div>
+        <div class="brand-role">Panel Gerencial</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/manager/dashboard" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📊</span>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/manager/rooms" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">🛏️</span>
+        <span>Habitaciones</span>
+      </a>
+      <a routerLink="/manager/guests" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">👥</span>
+        <span>Huéspedes</span>
+      </a>
+      <a routerLink="/manager/reports" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">📈</span>
+        <span>Reportes</span>
+      </a>
     </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <span>🚪</span> Cerrar Sesión
+      </button>
+    </div>
   </aside>
 
-  <main class="manager-main">
+  <main class="main-content">
     <router-outlet></router-outlet>
   </main>
 </div>

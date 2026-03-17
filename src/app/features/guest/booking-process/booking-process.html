@@ -1,5 +1,5 @@
 <div class="booking-container" *ngIf="room">
-  <h1 class="pb-title booking-title">Reservar Habitación {{ room.number }}</h1>
+  <h1 class="pb-title booking-title">Reservar Habitación {{ room.name }}</h1>
 
   <mat-card class="pb-card booking-card">
     <mat-card-content>
@@ -51,7 +51,7 @@
             <div class="booking-summary">
               <h3>Resumen de la Reserva</h3>
               <div class="summary-item">
-                <span>Habitación {{ room.number }}</span>
+                <span>Habitación {{ room.name }}</span>
                 <span>${{ room.price }} x {{ totalNights }} noches</span>
               </div>
               <div class="summary-item">
@@ -106,7 +106,7 @@
             <div class="final-summary">
               <div class="summary-item">
                 <span>Habitación:</span>
-                <span>{{ room.number }} - {{ room.type | titlecase }}</span>
+                <span>{{ room.name }} - {{ room.type | titlecase }}</span>
               </div>
               <div class="summary-item">
                 <span>Check-in:</span>

@@ -11,8 +11,8 @@
         <form [formGroup]="roomForm" (ngSubmit)="saveRoom()">
           <div class="form-row">
             <mat-form-field appearance="outline">
-              <mat-label>Número</mat-label>
-              <input matInput formControlName="number" placeholder="101">
+              <mat-label>Nombre/Número</mat-label>
+              <input matInput formControlName="name" placeholder="101">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
@@ -64,9 +64,9 @@
       </mat-card-header>
       <mat-card-content>
         <table mat-table [dataSource]="rooms" class="rooms-table">
-          <ng-container matColumnDef="number">
-            <th mat-header-cell *matHeaderCellDef>Número</th>
-            <td mat-cell *matCellDef="let room">{{ room.number }}</td>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let room">{{ room.name }}</td>
           </ng-container>
 
           <ng-container matColumnDef="type">

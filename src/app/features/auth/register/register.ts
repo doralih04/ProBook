@@ -40,8 +40,7 @@ export class Register {
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
-      role: ['guest', [Validators.required]]
+      confirmPassword: ['', [Validators.required]]
     }, { validators: this.passwordMatchValidator });
   }
 
@@ -59,13 +58,9 @@ export class Register {
       const { name, email, password } = this.registerForm.value;
 
       this.authService.register({ name, email, password }).subscribe({
-        next: (response) => {
+        next: () => {
           this.loading = false;
-          if (response.user.role === 'manager') {
-            this.router.navigate(['/manager']);
-          } else {
-            this.router.navigate(['/guest']);
-          }
+          this.router.navigate(['/auth/login']);
         },
         error: (err) => {
           this.loading = false;
