@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:7043/api', // URL del backend ASP.NET Core
+  apiUrl: 'http://localhost:5033/api', // URL del backend ASP.NET Core (usando HTTP para evitar errores SSL)
   firebase: {
     apiKey: 'your-api-key',
     authDomain: 'your-project.firebaseapp.com',

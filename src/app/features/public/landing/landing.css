@@ -51,8 +51,8 @@
 }
 
 .hero-button {
-  font-size: 1.1rem;
-  padding: 1rem 2rem;
+  font-size: 1.15rem;
+  padding: 1.2rem 2.5rem;
 }
 
 .hero-button-outline {
@@ -215,8 +215,8 @@ section {
 }
 
 .cta-button {
-  font-size: 1.2rem;
-  padding: 1rem 3rem;
+  font-size: 1.25rem;
+  padding: 1.25rem 3.5rem;
 }
 
 /* Responsive */

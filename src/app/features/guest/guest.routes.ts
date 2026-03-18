@@ -8,8 +8,8 @@ import { reservationGuard } from '../../core/guards/reservation.guard';
 
 export const guestRoutes: Routes = [
   { path: 'dashboard', component: GuestDashboard },
-  { path: 'catalog', component: RoomCatalog, canActivate: [reservationGuard] },
-  { path: 'booking', component: BookingProcess, canActivate: [reservationGuard] },
+  { path: 'catalog', component: RoomCatalog },
+  { path: 'booking', component: BookingProcess },
   { path: 'reservations', component: MyReservations },
   { path: 'already-reserved', component: AlreadyReservedComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
