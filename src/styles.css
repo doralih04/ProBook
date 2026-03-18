@@ -38,8 +38,14 @@ body {
 .pb-button {
   border-radius: 12px;
   font-weight: 500;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
   text-transform: none;
   transition: all 0.3s ease;
+}
+
+.pb-button mat-icon {
+  margin-right: 8px;
 }
 
 .pb-button:hover {

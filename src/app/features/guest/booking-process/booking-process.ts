@@ -107,11 +107,7 @@ export class BookingProcess implements OnInit {
         },
         error: (err) => {
           console.error(err);
-          if (err.status === 400) {
-            alert('Error: Ya tienes una reserva activa. No puedes realizar otra reserva.');
-          } else {
-            alert('Ocurrió un error al procesar la reserva. Intenta de nuevo.');
-          }
+          alert('Ocurrió un error al procesar la reserva. Intenta de nuevo.');
         }
       });
     }

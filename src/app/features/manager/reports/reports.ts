@@ -94,7 +94,12 @@ export class Reports implements OnInit {
         const labels = dist.map(d => d.type);
         const data = dist.map(d => d.count);
         this.revenueByTypeChartData.labels = labels;
-        this.revenueByTypeChartData.datasets[0].data = data;
+        this.revenueByTypeChartData.datasets = [
+          {
+            ...this.revenueByTypeChartData.datasets[0],
+            data: data
+          }
+        ];
       },
       error: (err) => console.error('Error fetching distribution', err)
     });
